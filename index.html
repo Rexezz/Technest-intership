@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LearnWave - Online Learning Platform</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex flex-col min-h-screen">
+
+<!-- Navbar -->
+<header class="bg-white shadow p-4 flex justify-between items-center">
+  <div class="text-xl font-bold text-teal-600">LearnWave</div>
+  <div id="userSection">
+    <button id="loginBtn" class="px-3 py-1 border rounded hover:bg-teal-100">Login</button>
+  </div>
+</header>
+
+<!-- Main Container -->
+<main class="flex-1 max-w-5xl mx-auto p-4">
+
+  <!-- Login Form -->
+  <section id="loginForm" class="bg-white p-6 rounded shadow mt-4 max-w-md mx-auto">
+    <h2 class="text-2xl font-bold mb-4">Student Login</h2>
+    <input type="text" id="username" placeholder="Username" class="border p-2 w-full mb-3 rounded">
+    <input type="password" id="password" placeholder="Password" class="border p-2 w-full mb-3 rounded">
+    <button id="submitLogin" class="px-4 py-2 bg-teal-600 text-white rounded w-full">Login</button>
+  </section>
+
+  <!-- Dashboard -->
+  <section id="dashboard" class="hidden mt-4">
+    <h2 class="text-2xl font-bold mb-4">Welcome, <span id="studentName"></span>!</h2>
+    
+    <!-- Video Lessons -->
+    <div class="mb-6">
+      <h3 class="text-xl font-semibold mb-2">Video Lessons</h3>
+      <div id="videoList" class="grid gap-4 md:grid-cols-2">
+        <!-- Videos will be injected by JS -->
+      </div>
+    </div>
+
+    <!-- Quizzes -->
+    <div class="mb-6">
+      <h3 class="text-xl font-semibold mb-2">Quizzes</h3>
+      <div id="quizList" class="space-y-4">
+        <!-- Quizzes injected by JS -->
+      </div>
+    </div>
+
+    <!-- Progress -->
+    <div class="mb-6">
+      <h3 class="text-xl font-semibold mb-2">Progress</h3>
+      <div id="progress" class="bg-white p-4 rounded shadow">
+        <!-- Progress will update dynamically -->
+      </div>
+    </div>
+
+    <button id="logoutBtn" class="px-4 py-2 bg-red-500 text-white rounded">Logout</button>
+  </section>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>

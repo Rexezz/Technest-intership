@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Animated Landing Page</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: #f5f5f5;
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    /* Navbar */
+    header {
+      width: 100%;
+      padding: 20px 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: white;
+      position: fixed;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      transition: background 0.3s ease;
+    }
+
+    header.scrolled {
+      background: #222;
+      color: #fff;
+    }
+
+    header h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: inherit;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #007bff;
+    }
+
+    /* Hamburger */
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .menu-toggle div {
+      width: 25px;
+      height: 3px;
+      background: #333;
+      margin: 5px;
+      transition: all 0.3s ease;
+    }
+
+    /* Hero Section */
+    .hero {
+      height: 100vh;
+      background: linear-gradient(to right, #007bff, #00c6ff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+      color: #fff;
+      padding: 0 20px;
+      animation: fadeSlide 1s ease-out;
+    }
+
+    @keyframes fadeSlide {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hero h2 {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+    }
+
+    .hero p {
+      max-width: 600px;
+      font-size: 1.1rem;
+      margin-bottom: 30px;
+    }
+
+    .btn {
+      padding: 12px 30px;
+      background: #fff;
+      color: #007bff;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    .btn:hover {
+      background: #007bff;
+      color: #fff;
+      transform: scale(1.05);
+    }
+
+    /* Features Section */
+    .features {
+      padding: 100px 50px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 40px;
+      background: #fff;
+    }
+
+    .feature {
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      text-align: center;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    .feature.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .feature h3 {
+      color: #007bff;
+      margin-bottom: 10px;
+    }
+
+    .feature p {
+      font-size: 1rem;
+      color: #555;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #222;
+      color: #fff;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      header {
+        padding: 15px 25px;
+      }
+
+      nav ul {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 70px;
+        right: 25px;
+        background: white;
+        padding: 15px;
+        border-radius: 10px;
+      }
+
+      nav ul.active {
+        display: flex;
+      }
+
+      .menu-toggle {
+        display: flex;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>MyLanding</h1>
+    <div class="menu-toggle" id="menu-toggle">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <nav>
+      <ul id="nav-list">
+        <li><a href="#hero">Home</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="hero" id="hero">
+    <h2>Welcome to My Landing Page</h2>
+    <p>Build modern and responsive websites with smooth animations and engaging transitions — using pure HTML, CSS, and JS!</p>
+    <button class="btn">Get Started</button>
+  </section>
+
+  <section class="features" id="features">
+    <div class="feature">
+      <h3>⚡ Fast</h3>
+      <p>Optimized performance ensures your page loads instantly.</p>
+    </div>
+    <div class="feature">
+      <h3>📱 Responsive</h3>
+      <p>Works seamlessly across all devices and screen sizes.</p>
+    </div>
+    <div class="feature">
+      <h3>🎨 Beautiful</h3>
+      <p>Modern UI with subtle animations and transitions.</p>
+    </div>
+  </section>
+
+  <footer id="contact">
+    <p>© 2025 MyLanding. All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    // Navbar scroll effect
+    window.addEventListener("scroll", () => {
+      const header = document.querySelector("header");
+      header.classList.toggle("scrolled", window.scrollY > 50);
+    });
+
+    // Mobile menu toggle
+    const toggle = document.getElementById("menu-toggle");
+    const navList = document.getElementById("nav-list");
+    toggle.addEventListener("click", () => {
+      navList.classList.toggle("active");
+    });
+
+    // Scroll animation
+    const revealElements = document.querySelectorAll(".feature");
+    window.addEventListener("scroll", () => {
+      const triggerBottom = window.innerHeight * 0.8;
+      revealElements.forEach(el => {
+        const top = el.getBoundingClientRect().top;
+        if (top < triggerBottom) {
+          el.classList.add("show");
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

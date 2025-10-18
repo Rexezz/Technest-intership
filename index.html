@@ -1,407 +1,64 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>ShopWave — Demo E-Commerce PWA</title>
-
-  <!-- Tailwind CDN for quick prototyping -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- PWA manifest -->
-  <link rel="manifest" href="manifest.json" />
-  <meta name="theme-color" content="#0ea5a4" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛍️</text></svg>">
-
-  <style>
-    /* minimal offline fallback styling for when offline and product images fail */
-    .image-placeholder {
-      background: linear-gradient(90deg,#e6f9f9,#fff);
-      display:flex;align-items:center;justify-content:center;
-      color:#0ea5a4;font-weight:600;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LearnWave - Online Learning Platform</title>
+<script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
+<body class="bg-gray-100 flex flex-col min-h-screen">
 
-  <!-- Navbar -->
-  <header class="w-full bg-white shadow sticky top-0 z-30">
-    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <button id="nav-home" class="text-xl font-semibold text-teal-600">ShopWave</button>
-        <nav class="hidden md:flex gap-4 ml-4">
-          <button class="nav-btn text-gray-600 hover:text-teal-600" data-route="home">Home</button>
-          <button class="nav-btn text-gray-600 hover:text-teal-600" data-route="products">Products</button>
-        </nav>
-      </div>
+<!-- Navbar -->
+<header class="bg-white shadow p-4 flex justify-between items-center">
+  <div class="text-xl font-bold text-teal-600">LearnWave</div>
+  <div id="userSection">
+    <button id="loginBtn" class="px-3 py-1 border rounded hover:bg-teal-100">Login</button>
+  </div>
+</header>
 
-      <div class="flex items-center gap-4">
-        <div class="hidden md:block text-sm text-gray-500">Demo PWA • Offline ready</div>
-        <button id="notifyBtn" class="px-3 py-1 rounded bg-teal-600 text-white text-sm hover:opacity-90">Notify</button>
-        <button id="cartBtn" class="relative px-3 py-1 border rounded hover:bg-gray-100">
-          Cart <span id="cartCount" class="ml-2 inline-block bg-red-500 text-white rounded-full text-xs w-5 h-5 text-center align-middle">0</span>
-        </button>
-        <button id="menuToggle" class="md:hidden px-2 py-1 border rounded">Menu</button>
+<!-- Main Container -->
+<main class="flex-1 max-w-5xl mx-auto p-4">
+
+  <!-- Login Form -->
+  <section id="loginForm" class="bg-white p-6 rounded shadow mt-4 max-w-md mx-auto">
+    <h2 class="text-2xl font-bold mb-4">Student Login</h2>
+    <input type="text" id="username" placeholder="Username" class="border p-2 w-full mb-3 rounded">
+    <input type="password" id="password" placeholder="Password" class="border p-2 w-full mb-3 rounded">
+    <button id="submitLogin" class="px-4 py-2 bg-teal-600 text-white rounded w-full">Login</button>
+  </section>
+
+  <!-- Dashboard -->
+  <section id="dashboard" class="hidden mt-4">
+    <h2 class="text-2xl font-bold mb-4">Welcome, <span id="studentName"></span>!</h2>
+    
+    <!-- Video Lessons -->
+    <div class="mb-6">
+      <h3 class="text-xl font-semibold mb-2">Video Lessons</h3>
+      <div id="videoList" class="grid gap-4 md:grid-cols-2">
+        <!-- Videos will be injected by JS -->
       </div>
     </div>
-    <!-- mobile nav -->
-    <div id="mobileNav" class="md:hidden hidden border-t bg-white">
-      <div class="px-4 py-2 flex gap-3">
-        <button class="nav-btn w-full text-left" data-route="home">Home</button>
-        <button class="nav-btn w-full text-left" data-route="products">Products</button>
+
+    <!-- Quizzes -->
+    <div class="mb-6">
+      <h3 class="text-xl font-semibold mb-2">Quizzes</h3>
+      <div id="quizList" class="space-y-4">
+        <!-- Quizzes injected by JS -->
       </div>
     </div>
-  </header>
 
-  <!-- Main SPA container -->
-  <main class="flex-1 max-w-6xl mx-auto px-4 py-8 w-full">
-
-    <!-- HOME -->
-    <section id="page-home" class="page">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-        <div>
-          <h1 class="text-4xl font-extrabold text-gray-900">ShopWave</h1>
-          <p class="mt-4 text-gray-600">A responsive demo e-commerce PWA — installable, offline-capable and accessible.</p>
-          <div class="mt-6 flex gap-3">
-            <button data-route="products" class="px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700">Browse Products</button>
-            <button id="ctaInstall" class="px-4 py-2 border rounded hidden">Install App</button>
-          </div>
-        </div>
-
-        <div class="bg-white rounded shadow p-6">
-          <h3 class="font-semibold">Featured</h3>
-          <div id="featuredList" class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
-        </div>
+    <!-- Progress -->
+    <div class="mb-6">
+      <h3 class="text-xl font-semibold mb-2">Progress</h3>
+      <div id="progress" class="bg-white p-4 rounded shadow">
+        <!-- Progress will update dynamically -->
       </div>
-    </section>
-
-    <!-- PRODUCTS (LIST) -->
-    <section id="page-products" class="page hidden">
-      <h2 class="text-2xl font-bold mb-4">All Products</h2>
-      <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
-    </section>
-
-    <!-- PRODUCT DETAILS -->
-    <section id="page-product" class="page hidden">
-      <button id="backToList" class="text-teal-600 mb-4">&larr; Back to products</button>
-      <div id="productDetail" class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white p-6 rounded shadow"></div>
-    </section>
-
-    <!-- CART -->
-    <section id="page-cart" class="page hidden">
-      <h2 class="text-2xl font-bold mb-4">Your Cart</h2>
-      <div id="cartContents" class="bg-white rounded p-4 shadow"></div>
-    </section>
-
-    <!-- OFFLINE FALLBACK (hidden, used by SW and runtime) -->
-    <section id="page-offline" class="page hidden">
-      <div class="text-center p-8">
-        <h2 class="text-2xl font-bold">You are offline</h2>
-        <p class="mt-4 text-gray-600">Some features may be unavailable. Products cached earlier should still be visible.</p>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- Footer -->
-  <footer class="bg-white border-t">
-    <div class="max-w-6xl mx-auto px-4 py-6 text-center text-sm text-gray-500">
-      © <span id="year"></span> ShopWave • Demo PWA — built with Tailwind
     </div>
-  </footer>
 
-  <!-- App scripts -->
-  <script>
-  /***** Sample product catalog (would come from API in real app) *****/
-  const PRODUCTS = [
-    { id: 'p1', title: 'Wireless Headphones', price: 59.99, desc: 'Comfortable wireless headphones with 20h battery.', img: 'https://picsum.photos/id/180/600/400' },
-    { id: 'p2', title: 'Smart Watch', price: 89.99, desc: 'Track fitness and notifications with style.', img: 'https://picsum.photos/id/1062/600/400' },
-    { id: 'p3', title: 'Portable Speaker', price: 39.99, desc: 'Loud, compact, water-resistant.', img: 'https://picsum.photos/id/1080/600/400' },
-    { id: 'p4', title: 'DSLR Camera', price: 399.00, desc: 'Capture moments with crystal clarity.', img: 'https://picsum.photos/id/250/600/400' },
-    { id: 'p5', title: 'Gaming Mouse', price: 29.50, desc: 'Ergonomic mouse with RGB and extra buttons.', img: 'https://picsum.photos/id/1025/600/400' },
-    { id: 'p6', title: 'Travel Backpack', price: 49.99, desc: 'Durable and roomy with laptop compartment.', img: 'https://picsum.photos/id/1011/600/400' }
-  ];
+    <button id="logoutBtn" class="px-4 py-2 bg-red-500 text-white rounded">Logout</button>
+  </section>
+</main>
 
-  // Simple client-side router
-  const pages = {
-    home: document.getElementById('page-home'),
-    products: document.getElementById('page-products'),
-    product: document.getElementById('page-product'),
-    cart: document.getElementById('page-cart'),
-    offline: document.getElementById('page-offline')
-  };
-
-  function showPage(name) {
-    Object.values(pages).forEach(p => p.classList.add('hidden'));
-    pages[name].classList.remove('hidden');
-    // update nav badge
-    if (name === 'cart') renderCart();
-  }
-
-  // Render helpers
-  function renderFeatured() {
-    const c = document.getElementById('featuredList');
-    c.innerHTML = '';
-    PRODUCTS.slice(0,4).forEach(p => {
-      const card = document.createElement('div');
-      card.className = 'p-3 border rounded flex gap-3 items-center';
-      card.innerHTML = `
-        <img src="${p.img}" alt="${p.title}" class="w-20 h-16 object-cover rounded" loading="lazy" onerror="this.style.display='none'">
-        <div>
-          <div class="font-semibold">${p.title}</div>
-          <div class="text-sm text-gray-500">$${p.price.toFixed(2)}</div>
-          <div class="mt-2"><button data-id="${p.id}" class="text-xs px-2 py-1 bg-teal-600 text-white rounded add-to-cart">Add</button></div>
-        </div>
-      `;
-      c.appendChild(card);
-    });
-    attachAddButtons();
-  }
-
-  function renderProducts() {
-    const grid = document.getElementById('productsGrid');
-    grid.innerHTML = '';
-    for (const p of PRODUCTS) {
-      const el = document.createElement('article');
-      el.className = 'bg-white rounded shadow p-4 flex flex-col';
-      el.innerHTML = `
-        <div class="h-44 w-full mb-3 overflow-hidden rounded image-placeholder">
-          <img src="${p.img}" alt="${p.title}" class="w-full h-full object-cover" loading="lazy" onerror="this.parentNode.classList.add('image-placeholder')">
-        </div>
-        <h3 class="font-semibold text-lg">${p.title}</h3>
-        <p class="text-sm text-gray-500 flex-1 mt-2">${p.desc}</p>
-        <div class="mt-4 flex items-center justify-between">
-          <div class="text-teal-600 font-bold">$${p.price.toFixed(2)}</div>
-          <div class="flex gap-2">
-            <button data-id="${p.id}" class="btn-detail px-3 py-1 border rounded text-sm">View</button>
-            <button data-id="${p.id}" class="add-to-cart px-3 py-1 bg-teal-600 text-white rounded text-sm">Add</button>
-          </div>
-        </div>
-      `;
-      grid.appendChild(el);
-    }
-    attachDetailButtons();
-    attachAddButtons();
-  }
-
-  // Detail view
-  function renderProductDetail(id) {
-    const p = PRODUCTS.find(x => x.id === id);
-    const container = document.getElementById('productDetail');
-    if (!p) {
-      container.innerHTML = '<p>Product not found</p>';
-      return;
-    }
-    container.innerHTML = `
-      <div class="image-placeholder">
-        <img src="${p.img}" alt="${p.title}" class="w-full h-full object-cover rounded" onerror="this.style.display='none'">
-      </div>
-      <div>
-        <h2 class="text-2xl font-bold mb-2">${p.title}</h2>
-        <div class="text-xl text-teal-600 font-bold mb-4">$${p.price.toFixed(2)}</div>
-        <p class="text-gray-600 mb-4">${p.desc}</p>
-        <div class="flex gap-3">
-          <button data-id="${p.id}" class="add-to-cart px-4 py-2 bg-teal-600 text-white rounded">Add to cart</button>
-          <button id="buyNow" class="px-4 py-2 border rounded">Buy now</button>
-        </div>
-      </div>
-    `;
-    attachAddButtons();
-    document.getElementById('buyNow').addEventListener('click', () => {
-      addToCart(p.id, 1);
-      showPage('cart');
-    });
-  }
-
-  // Cart logic (persisted in localStorage)
-  function getCart() {
-    try {
-      return JSON.parse(localStorage.getItem('shopwave_cart') || '[]');
-    } catch { return []; }
-  }
-  function saveCart(cart) { localStorage.setItem('shopwave_cart', JSON.stringify(cart)); updateCartCount(); }
-
-  function addToCart(id, qty = 1) {
-    const cart = getCart();
-    const item = cart.find(i => i.id === id);
-    if (item) item.qty += qty; else cart.push({ id, qty });
-    saveCart(cart);
-    toast('Added to cart');
-  }
-
-  function removeFromCart(id) {
-    let cart = getCart().filter(i => i.id !== id);
-    saveCart(cart);
-  }
-
-  function updateQty(id, qty) {
-    const cart = getCart();
-    const item = cart.find(i => i.id === id);
-    if (item) item.qty = Math.max(1, qty);
-    saveCart(cart);
-  }
-
-  function renderCart() {
-    const container = document.getElementById('cartContents');
-    const cart = getCart();
-    if (cart.length === 0) {
-      container.innerHTML = '<p class="text-gray-600">Your cart is empty.</p>';
-      return;
-    }
-    let html = '<div class="space-y-4">';
-    let total = 0;
-    for (const c of cart) {
-      const p = PRODUCTS.find(x => x.id === c.id);
-      const subtotal = p.price * c.qty;
-      total += subtotal;
-      html += `
-        <div class="flex items-center gap-4">
-          <img src="${p.img}" alt="${p.title}" class="w-24 h-16 object-cover rounded" loading="lazy" onerror="this.style.display='none'">
-          <div class="flex-1">
-            <div class="font-semibold">${p.title}</div>
-            <div class="text-sm text-gray-500">$${p.price.toFixed(2)} each</div>
-            <div class="mt-2 flex items-center gap-2">
-              <input type="number" min="1" value="${c.qty}" data-id="${c.id}" class="qty-input w-20 p-1 border rounded text-sm" />
-              <button data-id="${c.id}" class="remove-item text-sm text-red-500">Remove</button>
-            </div>
-          </div>
-          <div class="font-semibold">$${subtotal.toFixed(2)}</div>
-        </div>
-      `;
-    }
-    html += `</div>
-      <div class="mt-6 flex justify-between items-center">
-        <div class="text-lg font-bold">Total: $${total.toFixed(2)}</div>
-        <div class="flex gap-3">
-          <button id="checkoutBtn" class="px-4 py-2 bg-teal-600 text-white rounded">Checkout</button>
-          <button id="clearCartBtn" class="px-4 py-2 border rounded">Clear</button>
-        </div>
-      </div>
-    `;
-    container.innerHTML = html;
-
-    // attach events
-    document.querySelectorAll('.remove-item').forEach(b => b.addEventListener('click', (e) => {
-      removeFromCart(e.target.dataset.id); renderCart();
-    }));
-    document.querySelectorAll('.qty-input').forEach(i => i.addEventListener('change', e => {
-      updateQty(e.target.dataset.id, parseInt(e.target.value || 1, 10));
-      renderCart();
-    }));
-    document.getElementById('clearCartBtn').addEventListener('click', () => { saveCart([]); renderCart(); });
-    document.getElementById('checkoutBtn').addEventListener('click', () => {
-      toast('Checkout simulated — thanks!', 4000);
-      saveCart([]);
-      renderCart();
-    });
-  }
-
-  // UI utilities
-  function attachDetailButtons() {
-    document.querySelectorAll('.btn-detail').forEach(btn =>
-      btn.addEventListener('click', e => {
-        const id = e.target.dataset.id;
-        renderProductDetail(id);
-        showPage('product');
-      })
-    );
-  }
-  function attachAddButtons() {
-    document.querySelectorAll('.add-to-cart').forEach(btn =>
-      btn.addEventListener('click', e => addToCart(e.target.dataset.id))
-    );
-  }
-
-  function toast(msg, ms = 2000) {
-    const t = document.createElement('div');
-    t.className = 'fixed bottom-6 right-6 bg-black text-white px-4 py-2 rounded shadow';
-    t.style.zIndex = 9999;
-    t.textContent = msg;
-    document.body.appendChild(t);
-    setTimeout(() => t.remove(), ms);
-  }
-
-  // Navigation and event wiring
-  document.querySelectorAll('.nav-btn').forEach(el => el.addEventListener('click', (e) => { showPage(e.target.dataset.route); }));
-  document.getElementById('nav-home').addEventListener('click', () => showPage('home'));
-  document.getElementById('cartBtn').addEventListener('click', () => showPage('cart'));
-  document.getElementById('menuToggle').addEventListener('click', () => {
-    document.getElementById('mobileNav').classList.toggle('hidden');
-  });
-  document.getElementById('backToList').addEventListener('click', () => { showPage('products'); });
-
-  // Install prompt handling (deferred prompt)
-  let deferredPrompt;
-  window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    document.getElementById('ctaInstall').classList.remove('hidden');
-  });
-  document.getElementById('ctaInstall').addEventListener('click', async () => {
-    if (!deferredPrompt) return;
-    deferredPrompt.prompt();
-    const choice = await deferredPrompt.userChoice;
-    if (choice.outcome === 'accepted') toast('App installed (user accepted)');
-    else toast('Install dismissed');
-    deferredPrompt = null;
-    document.getElementById('ctaInstall').classList.add('hidden');
-  });
-
-  // Notifications demo (client-only)
-  document.getElementById('notifyBtn').addEventListener('click', async () => {
-    if (!('Notification' in window)) { alert('Notifications not supported.'); return; }
-    const perm = await Notification.requestPermission();
-    if (perm === 'granted') {
-      new Notification('ShopWave', { body: 'Thanks for enabling notifications! This is a demo (no server pushes).' });
-    } else {
-      alert('Notification permission denied.');
-    }
-  });
-
-  // Cart badge
-  function updateCartCount() {
-    const c = getCart();
-    const total = c.reduce((s, i) => s + i.qty, 0);
-    document.getElementById('cartCount').textContent = total;
-  }
-
-  // Basic offline detection to show offline page if needed
-  window.addEventListener('online', () => { toast('You are online'); });
-  window.addEventListener('offline', () => { toast('You are offline'); });
-
-  // initial render
-  document.getElementById('year').textContent = new Date().getFullYear();
-  renderFeatured();
-  renderProducts();
-  updateCartCount();
-  showPage('home');
-
-  // delegate clicks on product links from anywhere (for links that may be dynamic)
-  document.body.addEventListener('click', (e) => {
-    if (e.target.matches('[data-product-id]')) {
-      const id = e.target.dataset.productId;
-      renderProductDetail(id);
-      showPage('product');
-    }
-  });
-
-  // register service worker
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js').then(reg => {
-      console.log('SW registered', reg);
-
-      // listen for updates (optional)
-      reg.addEventListener('updatefound', () => {
-        const newWorker = reg.installing;
-        newWorker.addEventListener('statechange', () => {
-          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-            // new content available
-            toast('New version available — refresh to update', 5000);
-          }
-        });
-      });
-    }).catch(err => console.error('SW registration failed', err));
-  }
-  </script>
+<script src="script.js"></script>
 </body>
 </html>
